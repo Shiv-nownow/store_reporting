@@ -51,7 +51,7 @@
   <div id="table-container"></div>
 
 <script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycby0CMs_nqrRJxRKl4XQ8b51tuwGbKHelvaLl6F5aVlz8Y4QzuuUMReYJpaR9gpg36r5hQ/exec';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbzz9oKhaNs8TO2vCpkLga5drjyKFYTuy3Y279YdnaSyoy5ApktSardJzr3O5nWu6UBziA/exec';
 
   // Ensure user is logged in
   const storedUser = sessionStorage.getItem('username');
@@ -111,18 +111,42 @@
     let html = '<table><thead><tr>';
     html += '<th>Order Date</th>';
     html += '<th>Store ID</th>';
+    html += '<th>Store Name Area</th>';
+    html += '<th>Merchant Name</th>';
     html += '<th>Orders</th>';
-    html += '<th>Units</th>';
-    html += '<th>Cancel Units</th>';
+    html += '<th>Del Orders</th>';
+    html += '<th>GMV</th>';
+    html += '<th>Total Units</th>';
+    html += '<th>Del Units</th>';
+    html += '<th>GC Units</th>';
+    html += '<th>NC Units</th>';
+    html += '<th>Acceptance Duration</th>';
+    html += '<th>RTS Time</th>';
+    html += '<th>RTS Adherence Orders</th>';
+    html += '<th>RTS Orders</th>';
+    html += '<th>Country</th>';
+    html += '<th>Store Rating</th>';
     html += '</tr></thead><tbody>';
 
     rows.forEach(r => {
       html += '<tr>';
       html += `<td>${r.order_date}</td>`;
       html += `<td>${r.store_id}</td>`;
+      html += `<td>${r.store_name_area}</td>`;
+      html += `<td>${r.merchant_name}</td>`;
       html += `<td>${r.orders}</td>`;
-      html += `<td>${r.units}</td>`;
-      html += `<td>${r.cancel_units}</td>`;
+      html += `<td>${r.del_orders}</td>`;
+      html += `<td>${r.gmv}</td>`;
+      html += `<td>${r.total_units}</td>`;
+      html += `<td>${r.del_units}</td>`;
+      html += `<td>${r.gc_units}</td>`;
+      html += `<td>${r.nc_units}</td>`;
+      html += `<td>${r.acceptance_duration}</td>`;
+      html += `<td>${r.rts_time}</td>`;
+      html += `<td>${r.rtsadherence_orders}</td>`;
+      html += `<td>${r.rts_orders}</td>`;
+      html += `<td>${r.country_code}</td>`;
+      html += `<td>${r.store_rating}</td>`;
       html += '</tr>';
     });
 
