@@ -85,14 +85,47 @@
   const API_URL = 'https://script.google.com/macros/s/AKfycby0CMs_nqrRJxRKl4XQ8b51tuwGbKHelvaLl6F5aVlz8Y4QzuuUMReYJpaR9gpg36r5hQ/exec';
 
   document.getElementById('loginBtn').addEventListener('click', async () => {
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const msg = document.getElementById('message');
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const msg = document.getElementById('message');
 
-    if (!username || !password) {
-      msg.textContent = 'Please enter username and password.';
+  if (!username || !password) {
+    msg.textContent = 'Please enter username and password.';
+    msg.className = 'message error';
+    return;
+  }
+
+  msg.textContent = 'Logging in...';
+  msg.className = 'message';
+
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'login',
+        username: username,
+        password: password
+      })
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+      msg.textContent = data.message || 'Login failed.';
       msg.className = 'message error';
       return;
     }
 
-    msg.textContent = 'Logging
+    // Save session info
+    sessionStorage.setItem('username', data.username);
+    sessionStorage.setItem('role', data.role);
+
+    // Redirect to dashboard
+    window.location.href = 'dashboard.html';
+  } catch (err) {
+    console.error(err);
+    msg.textContent = 'Unexpected error during login.';
+    msg.className = 'message error';
+  }
+});
