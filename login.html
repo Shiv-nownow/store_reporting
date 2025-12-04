@@ -82,55 +82,54 @@
 </div>
 
 <script>
-  const API_URL = 'https://script.google.com/macros/s/AKfycbzz9oKhaNs8TO2vCpkLga5drjyKFYTuy3Y279YdnaSyoy5ApktSardJzr3O5nWu6UBziA/exec';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbzaSG7ZJs5YpCr_sNFg6vD6SUJRBDwfa3YU2dKeMHlADVBn7gZ1cT889omGHo3ocKkTLg/exec';
 
   document.getElementById('loginBtn').addEventListener('click', async () => {
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const msg = document.getElementById('message');
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const msg = document.getElementById('message');
 
-    if (!username || !password) {
-      msg.textContent = 'Please enter username and password.';
+  if (!username || !password) {
+    msg.textContent = 'Please enter username and password.';
+    msg.className = 'message error';
+    return;
+  }
+
+  msg.textContent = 'Logging in...';
+  msg.className = 'message';
+
+  try {
+    const body = new URLSearchParams({
+      action: 'login',
+      username: username,
+      password: password
+    });
+
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString()
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+      msg.textContent = data.message || 'Login failed.';
       msg.className = 'message error';
       return;
     }
 
-    msg.textContent = 'Logging in...';
-    msg.className = 'message';
+    sessionStorage.setItem('username', data.username);
+    sessionStorage.setItem('role', data.role);
 
-    try {
-  const body = new URLSearchParams({
-    action: 'login',
-    username: username,
-    password: password
-  });
+    window.location.href = 'dashboard.html';
+  } catch (err) {
+    console.error(err);
+    msg.textContent = 'Unexpected error during login.';
+    msg.className = 'message error';
+  }
+});
 
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: body.toString()
-  });
-
-  const data = await res.json();
-
-      if (!data.success) {
-        msg.textContent = data.message || 'Login failed.';
-        msg.className = 'message error';
-        return;
-      }
-
-      // Save session info
-      sessionStorage.setItem('username', data.username);
-      sessionStorage.setItem('role', data.role);
-
-      // Redirect to dashboard
-      window.location.href = 'dashboard.html';
-    } catch (err) {
-      console.error(err);
-      msg.textContent = 'Unexpected error during login.';
-      msg.className = 'message error';
-    }
-  });
 </script>
 </body>
 </html>
