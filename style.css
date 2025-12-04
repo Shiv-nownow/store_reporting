@@ -1,0 +1,12 @@
+*{margin:0;padding:0;color:white;font-family: 'Playfair Display', serif;}
+h1{text-align:center;}
+body { background-color:#ef5227;font-size:13;margin: 0}
+
+li{margin-left:20;}
+
+.bo {
+  height: 500px;
+  width: 33%;
+  display: inline-block;
+  text-align:center;
+}
